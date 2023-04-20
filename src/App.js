@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 import BearsList from './BearsList';
-import AddBearForm from './AddBearForm';
+import BearForm from './BearForm';
 
 function App() {
   const [bears, setBears] = useState([
@@ -23,15 +23,26 @@ function App() {
       newBear
     ]);
   }
+  function replaceBear(oldBear, newBear) {
+    // map over the array and replace the bear we're looking for
+    // (keeping all the other bears the same)
+    let updatedBears = bears.map(bear => bear === oldBear ? newBear : bear);
+    setBears(updatedBears);
+  }
   function deleteBear(bearToDelete) {
     let filteredBears = bears.filter(bear => bear !== bearToDelete);
     setBears(filteredBears);
   }
+  let initialFormData = {
+    name: '',
+    imageUrl: '',
+    habitat: ''
+  }
   return (
     <div className="container">
       <h1>Bears</h1>
-      <AddBearForm addBear={addBear} />
-      <BearsList allOfTheBears={bears} deleteBear={deleteBear} />
+      <BearForm submitHandler={addBear} header="Add a Bear" initialFormData={initialFormData} />
+      <BearsList allOfTheBears={bears} deleteBear={deleteBear} replaceBear={replaceBear} />
     </div>
   );
 }
