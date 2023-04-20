@@ -1,69 +1,37 @@
-import React, { useState } from 'react';
-import AddModule from './AddModule';
-import Header from './Header';
-import ModuleList from './ModuleList';
+import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import BearsList from './BearsList';
+import AddBearForm from './AddBearForm';
 
 function App() {
-  const [modules, setModules] = useState([
+  const [bears, setBears] = useState([
     {
-      number: 18,
-      dueDate: 'Apr 7',
-      title: 'Frontend foundations',
-      completed: false
+      name: 'Winnie',
+      imageUrl: 'https://akns-images.eonline.com/eol_images/Entire_Site/201477/rs_1024x570-140807100228-1024.Winnie-The-Pooh.jl.080714.jpg?fit=around%7C1024:570&output-quality=90&crop=1024:570;center,top',
+      habitat: 'Hundred Acre Wood'
     },
     {
-      number: 19,
-      dueDate: 'Apr 7',
-      title: 'CSS frameworks',
-      completed: false
-    },
-    {
-      number: 20,
-      dueDate: 'Apr 7',
-      title: 'JavaScript and the DOM',
-      completed: false
-    },
-    {
-      number: 21,
-      dueDate: 'Apr 14',
-      title: 'Rendering with React',
-      completed: false
-    },
-    {
-      number: 22,
-      dueDate: 'Apr 14',
-      title: 'React state management',
-      completed: false
-    },
+      name: 'Sloth',
+      imageUrl: 'https://thumbs.dreamstime.com/b/young-toed-sloth-its-natural-habitat-amazon-river-peru-bradypus-variegatus-found-peruvian-area-endangered-specie-40590664.jpg',
+      habitat: 'amazon river'
+    }
   ]);
-  function setModuleComplete(moduleToMarkComplete) {
-    // to set that module is complete,
-    // go through all of the modules
-    // if that module is the one we want to change,
-    // make a new object where completed is true
-    // else, just include the same module
-    console.log('marking module complete', module)
-    let newModulesArray = modules.map(module => module === moduleToMarkComplete ?
-      { ...module, completed: true } :
-      module);
-    setModules(newModulesArray);
+  function addBear(newBear) {
+    setBears([
+      ...bears,
+      newBear
+    ]);
   }
-  const [numberOfClicks, setNumberOfClicks] = useState(0);
-  function incrementNumberOfClicks() {
-    setNumberOfClicks(numberOfClicks => numberOfClicks + 1)
-  }
-  function addModule(newModule) {
-    setModules([
-      ...modules,
-      newModule
-    ])
+  function deleteBear(bearToDelete) {
+    let filteredBears = bears.filter(bear => bear !== bearToDelete);
+    setBears(filteredBears);
   }
   return (
-    <div className="App">
-      <Header numberOfModules={modules.length} numberOfClicks={numberOfClicks} incrementNumberOfClicks={incrementNumberOfClicks} />
-      <AddModule addModule={addModule} />
-      <ModuleList modules={modules} numberOfClicks={numberOfClicks} setModuleComplete={setModuleComplete} />
+    <div className="container">
+      <h1>Bears</h1>
+      <AddBearForm addBear={addBear} />
+      <BearsList allOfTheBears={bears} deleteBear={deleteBear} />
     </div>
   );
 }
